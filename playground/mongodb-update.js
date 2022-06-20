@@ -27,6 +27,7 @@ MongoClient.connect('mongodb://localhost:27017',(err, client) => {
         $set:{
             name: 'Christian'
         },
+        // increment a field value 
         $inc: {
             age: 1
         }
