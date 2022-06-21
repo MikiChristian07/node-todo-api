@@ -8,9 +8,11 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(bodyparser.json());
-monConn()
 
-app.post('/todos',(req, res)=> {
+monConn();
+
+//post todo route
+app.post('/todos',(req, res) => {
     const todo = new Todo({
         text: req.body.text
     });
@@ -24,6 +26,13 @@ app.post('/todos',(req, res)=> {
         });
 });
 
+//get todo route
+app.get('/todos', (req, res) => {
+    const alltodos = Todo.find()
+})
+
 app.listen(port, () => {
     console.log(`Connected to port ${port}`); 
 })
+
+export default app;
