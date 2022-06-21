@@ -9,8 +9,6 @@ const userSchema = mongoose.Schema({
     }
 })
 
-const user = mongoose.model('Users', userSchema)
+const User = mongoose.model('Users', userSchema)
 
-export default {
-    user
-}
+export default User;

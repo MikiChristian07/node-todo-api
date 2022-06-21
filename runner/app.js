@@ -18,6 +18,7 @@ app.post('/todos',(req, res) => {
     });
 
     todo.save()
+        // doc is for the posted body
         .then((doc) => {
             res.send(doc)
         })
@@ -29,7 +30,16 @@ app.post('/todos',(req, res) => {
 //get todo route
 app.get('/todos', (req, res) => {
     const alltodos = Todo.find()
-})
+
+    alltodos
+        // todos is the collection of the actual json document 
+        .then((todos) => {
+            res.send({todos});
+        })
+        .catch((e) => {
+            res.status(400).send(e)
+        })
+});
 
 app.listen(port, () => {
     console.log(`Connected to port ${port}`); 
