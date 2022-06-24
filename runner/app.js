@@ -1,5 +1,6 @@
 import express from 'express';
 import monConn from './db/mongoose.js';
+import mongoose from 'mongoose';
 import Todo from './models/todos.model.js';
 import user from './models/users.model.js'
 import bodyparser from 'body-parser';
@@ -40,6 +41,24 @@ app.get('/todos', (req, res) => {
             res.status(400).send(e)
         })
 });
+
+// console.log(ObjectId())
+// 
+//get todo:id route
+app.get('/todos/:id', (req, res) => {
+    const id = req.params.id
+    if(!mongoose.isValidObjectId(id)){
+        return res.status(404).send()
+    }
+
+    Todo.findById(id)
+        .then((todos) => {
+            res.send(todos)
+        }).catch((e) => {
+            return res.status(404).send()
+        })
+
+})
 
 app.listen(port, () => {
     console.log(`Connected to port ${port}`); 
