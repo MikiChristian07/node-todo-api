@@ -1,12 +1,15 @@
 import expect from 'expect'
 import request  from 'supertest'
+import { ObjectID } from 'mongodb'
 import Todo from '../models/todos.model.js'
 import app from '../app.js'
 
 //for existing todos documents
 const texts = [{
+    _id: new ObjectID(),
     text: "first todo list"
 }, {
+    _id: new ObjectID(),
     text: "Second todo list"
 }]
 
@@ -73,7 +76,7 @@ describe('POST /todos', () => {
 });
 
 describe('GET /todos', () => {
-    it('should all the current todos', (done) => {
+    it('should get all the current todos', (done) => {
 
         request(app)
             .get('/todos')
@@ -82,5 +85,18 @@ describe('GET /todos', () => {
                 expect(res.body.todos.length).toBe(2)
             })
             .end(done) 
+    })
+})
+
+describe('GET /todos:id', () => {
+    it('should get a current todo by its id', (done) => {
+
+        request(app)
+            .get(`/todos${texts[0]._id.toHexString()}`)
+            .expect(200)
+            .expect((res) => {
+                expect(res.body.todo.text).toBe(texts[0].text)
+            })
+            .end(done);
     })
 })
